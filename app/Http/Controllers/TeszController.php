@@ -15,6 +15,6 @@ class TeszController extends Controller
     $randomNameKey = array_rand($names, 1);
     $randomName = $names[$randomNameKey];
 
-    return view('teszt', compact('randomName'));
+    return view('pages.teszt', compact('randomName'));
 }
 }
