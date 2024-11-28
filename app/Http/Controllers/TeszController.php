@@ -17,4 +17,13 @@ class TeszController extends Controller
 
     return view('pages.teszt', compact('randomName'));
 }
+
+public function names()
+{
+        $names = [
+            'Traza', 'Beep', 'Zsó', 'Musla',
+            'D3n', 'Nekokota', 'Nhilerion'
+        ];
+        return view('pages.names', compact('names'));
+}
 }

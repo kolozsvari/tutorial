@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', '| Teszt oldal')
 @section('content')
     <div class="jumbotron">
         <h1>{{ $randomName }}</h1>

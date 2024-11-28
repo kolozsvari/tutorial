@@ -11,6 +11,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/teszt">Teszt route</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/names">Nevek</a>
+            </li>
         </ul>
     </div>
 </nav>
