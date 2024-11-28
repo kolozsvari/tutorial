@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Family;
+use App\Models\Name;
 use Illuminate\Http\Request;
 
 class TeszController extends Controller
@@ -20,10 +22,27 @@ class TeszController extends Controller
 
 public function names()
 {
-        $names = [
-            'Traza', 'Beep', 'Zsó', 'Musla',
-            'D3n', 'Nekokota', 'Nhilerion'
-        ];
+        $names = Name::all();
         return view('pages.names', compact('names'));
+}
+
+public function namesCreate($family,$name)
+{
+    $nameRecord = new Name();
+    $nameRecord->name = $name;
+    $nameRecord->family_id = $family;
+    $nameRecord->save();
+
+    return $nameRecord->id;
+}
+
+public function familyCreate($name)
+{
+    $familyRecord = new Family();
+    $familyRecord->surname = $name;
+   
+    $familyRecord->save();
+
+    return $familyRecord->id;
 }
 }

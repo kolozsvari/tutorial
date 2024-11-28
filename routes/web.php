@@ -9,4 +9,5 @@ Route::get('/', function () {
 
 Route::get('/teszt', [TeszController::class, 'teszt']);
 Route::get('/names', [TeszController::class, 'names']);
-
+Route::get('/names/create/{family}/{name}', [TeszController::class, 'namesCreate']);
+Route::get('/families/create/{name}', [TeszController::class, 'familyCreate']);
