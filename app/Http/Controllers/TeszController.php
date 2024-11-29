@@ -45,4 +45,12 @@ public function familyCreate($name)
 
     return $familyRecord->id;
 }
+
+public function deleteName(Request $request)
+{
+    $name = Name::find($request->input('id'));
+    $name->delete();
+
+    return "ok";
+}
 }

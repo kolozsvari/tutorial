@@ -11,6 +11,7 @@
                 <th>Név</th>
                 <th>Családnév</th>
                 <th>Létrehozás</th>
+                <th>Műveletek</th>
             </tr>
         </thead>
         <tbody>
@@ -25,11 +26,37 @@
                     <td>{{ $name->name }}</td>
 
                     <td>{{ $name->created_at }}</td>
+
+                    <td>
+                        <a href="#" class="btn btn-sm btn-danger btn-delete-name" data-id="{{ $name->id }}">Törlés</a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
-    </table>
-
-   
+    </table> 
 </div>
+@endsection
+
+@section('script')
+    <script>
+        $(".btn-delete-name").on('click', function(){
+            let thisBtn = $(this);
+            let id = thisBtn.data('id');
+
+            $.ajax({
+                type: "POST",
+                url: '/names/delete',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id
+                },
+                success: function(){
+                    thisBtn.closest('tr').fadeOut();
+                },
+                error: function(){
+                    alert('Nem sikerült a törlés!');
+                }
+            });
+        });
+    </script>
 @endsection
