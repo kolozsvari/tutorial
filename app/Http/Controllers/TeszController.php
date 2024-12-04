@@ -53,4 +53,26 @@ public function deleteName(Request $request)
 
     return "ok";
 }
+
+public function manageSurname()
+{
+    $names = Family::all();
+    return view('pages.surname', compact('names'));
+}
+
+public function deleteSurname(Request $request)
+{
+    $name = Family::find($request->input('id'));
+    $name->delete();
+
+    return "ok";
+}
+public function newSurname(Request $request)
+{
+    $familyRecord = new Family();
+    $familyRecord->surname = $request->input('inputFamily');
+    $familyRecord->save();
+
+    return redirect("/names/manage/surname");
+}
 }
