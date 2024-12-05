@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Family;
 use App\Models\Name;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class TeszController extends Controller
@@ -23,9 +25,9 @@ class TeszController extends Controller
 public function names()
 {
         $names = Name::all();
-        return view('pages.names', compact('names'));
+        $families = Family::all();
+        return view('pages.names', compact('names', 'families'));
 }
-
 public function namesCreate($family,$name)
 {
     $nameRecord = new Name();
@@ -62,17 +64,43 @@ public function manageSurname()
 
 public function deleteSurname(Request $request)
 {
-    $name = Family::find($request->input('id'));
-    $name->delete();
+    try {
+        $name = Family::find($request->input('id'));
+        $name->delete();
 
-    return "ok";
+        return response()->json(['success' => true]);
+    }
+    catch (QueryException $e)
+    {
+        return response()->json(['success' => false, 'message' => 'Adatbázis hiba történt! A családnév biztos nincs használatban?']);
+    }
+    catch (Exception $e)
+    {
+        return response()->json(['success' => false, 'message' => 'Ismeretlen hiba történt!']);
+    }
 }
 public function newSurname(Request $request)
 {
+    $validatedData = $request->validate([
+        'inputFamily' => 'required|alpha|min:2|max:20',
+    ]);
     $familyRecord = new Family();
-    $familyRecord->surname = $request->input('inputFamily');
+    $familyRecord->surname = $validatedData['inputFamily'];
     $familyRecord->save();
 
     return redirect("/names/manage/surname");
+}
+public function newName(Request $request)
+{
+    $validatedData = $request->validate([
+        'inputFamily' => 'required|integer|exists:App\Models\Family,id',
+        'inputName' => 'required|alpha|min:2|max:20',
+    ]);
+    $name = new Name();
+    $name->family_id = $validatedData('inputFamily');
+    $name->name = $validatedData('inputName');
+    $name->save();
+
+    return redirect("/names");
 }
 }

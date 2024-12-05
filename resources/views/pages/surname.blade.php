@@ -27,11 +27,20 @@
     </tbody>
 </table>
 <h3 class="mt-3">Új családnév hozzáadása</h3>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <form method="post" action="/names/manage/surname/new">
     @csrf
     <div class="form-group">
         <label for="inputFamily">Családnév</label>
-        <input type="text" class="form-control" id="inputFamily" name="inputFamily">
+        <input type="text" class="form-control" id="inputFamily" name="inputFamily" value="{{ old('inputFamily') }}"  minlength="2" maxlength="20" required>
     </div>
     <button type="submit" class="btn btn-primary">Hozzáadás</button>
 </form>
@@ -46,19 +55,26 @@
             let id = thisBtn.data('id');
 
             $.ajax({
-                type: "POST",
-                url: '/names/manage/surname/delete',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id: id
-                },
-                success: function(){
-                    thisBtn.closest('tr').fadeOut();
-                },
-                error: function(){
-                    alert('Nem sikerült a törlés!');
-                }
-            });
+    type: "POST",
+    url: '/names/manage/surname/delete',
+    data: {
+        _token: '{{ csrf_token() }}',
+        id: id
+    },
+    success: function(data){
+        if (data.success == true)
+        {
+            thisBtn.closest('tr').fadeOut();
+        }
+        else
+        {
+            alert("Hiba történt a törléskor!\nRészletek: " + data.message);
+        }
+    },
+    error: function(){
+        alert('Nem sikerült a törlés!');
+    }
+});
         });
     </script>
 @endsection

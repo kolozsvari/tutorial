@@ -15,3 +15,4 @@ Route::post('/names/delete', [TeszController::class, 'deleteName']);
 Route::get('/names/manage/surname', [TeszController::class, 'manageSurname']);
 Route::post('/names/manage/surname/delete', [TeszController::class, 'deleteSurname']);
 Route::post('/names/manage/surname/new', [TeszController::class,'newsurname']);
+Route::post('/names/manage/name/new', [TeszController::class, 'newName']);

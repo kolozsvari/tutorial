@@ -34,6 +34,32 @@
             @endforeach
         </tbody>
     </table> 
+    <h3 class="mt-3">Új név hozzáadása</h3>
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form method="post" action="/names/manage/name/new">
+    @csrf
+    <div class="form-group">
+        <label for="inputFamily">Családnév</label>
+        <select id="inputFamily" name="inputFamily" class="form-control">
+            @foreach($families as $family)
+                <option value="{{ $family->id }}">{{ $family->surname }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="inputName">Keresztnév</label>
+        <input type="text" class="form-control" id="inputName" name="inputName"  value="{{ old('inputName') }}"  minlength="2" maxlength="20" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Hozzáadás</button>
+</form>
 </div>
 @endsection
 
